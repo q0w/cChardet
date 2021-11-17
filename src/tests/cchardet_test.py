@@ -4,17 +4,17 @@ import os
 import cchardet
 
 SKIP_LIST = [
-    'tests/testdata/ja/utf-16le.txt',
-    'tests/testdata/ja/utf-16be.txt',
-    'tests/testdata/es/iso-8859-15.txt',
-    'tests/testdata/da/iso-8859-1.txt',
-    'tests/testdata/he/iso-8859-8.txt'
+    'src/tests/testdata/ja/utf-16le.txt',
+    'src/tests/testdata/ja/utf-16be.txt',
+    'src/tests/testdata/es/iso-8859-15.txt',
+    'src/tests/testdata/da/iso-8859-1.txt',
+    'src/tests/testdata/he/iso-8859-8.txt'
 ]
 
 # Python can't decode encoding
 SKIP_LIST_02 = [
-    'tests/testdata/vi/viscii.txt',
-    'tests/testdata/zh/euc-tw.txt'
+    'src/tests/testdata/vi/viscii.txt',
+    'src/tests/testdata/zh/euc-tw.txt'
 ]
 SKIP_LIST_02.extend(SKIP_LIST)
 
@@ -25,7 +25,7 @@ def test_ascii():
 
 
 def test_detect():
-    testfiles = glob.glob('tests/testdata/*/*.txt')
+    testfiles = glob.glob('src/tests/testdata/*/*.txt')
     for testfile in testfiles:
         if testfile.replace("\\", "/") in SKIP_LIST:
             continue
@@ -40,7 +40,7 @@ def test_detect():
 
 def test_detector():
     detector = cchardet.UniversalDetector()
-    with open("tests/samples/wikipediaJa_One_Thousand_and_One_Nights_SJIS.txt", 'rb') as f:
+    with open("src/tests/samples/wikipediaJa_One_Thousand_and_One_Nights_SJIS.txt", 'rb') as f:
         line = f.readline()
         while line:
             detector.feed(line)
@@ -66,7 +66,7 @@ def test_github_issue_20():
 
 
 def test_decode():
-    testfiles = glob.glob('tests/testdata/*/*.txt')
+    testfiles = glob.glob('src/tests/testdata/*/*.txt')
     for testfile in testfiles:
         if testfile.replace("\\", "/") in SKIP_LIST_02:
             continue
@@ -84,13 +84,13 @@ def test_decode():
                 raise e
 
 
-def test_utf8_with_bom(self):
+def test_utf8_with_bom():
     sample = b'\xEF\xBB\xBF'
     detected_encoding = cchardet.detect(sample)
     assert "utf-8-sig" == detected_encoding['encoding'].lower()
 
 
-def test_null_bytes(self):
+def test_null_bytes():
     sample = b'ABC\x00\x80\x81'
     detected_encoding = cchardet.detect(sample)
 
